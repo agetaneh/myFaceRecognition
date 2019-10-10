@@ -20,7 +20,7 @@ import cv2
 def process_image():
     # Read img as grayscale
     img = cv2.imread('geisel.jpg',0)
-
+    
     #Scalling the img
     scale = 50
     width = int(img.shape[1] * scale / 100)
@@ -31,7 +31,6 @@ def process_image():
     w = int(img.shape[1])
     h = int(img.shape[0])
     # Drawing rectangle on img
-    print(w,h)
     img = cv2.rectangle(img,(50,16), (150,116), (255,255,255),4)
 
     #Show the image
