@@ -31,6 +31,16 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     # and occupied/unoccupied text
     image = frame.array
 
+    # scale the image 
+    w = int(image.shape[1] * 50 /100)
+    h = int(image.shape[0] * 50 /100)
+
+    # Resize the image
+    image = cv2.resize(image, (w,h), interpolation=cv2.INTER_AREA)
+
+    # Drawing rectangle on image
+    image = cv2.rectangle(image, (50,16), (150, 116), (255,255,255), 4)
+
     # show the frame
     cv2.imshow("Frame", image)
     key = cv2.waitKey(1) & 0xFF
@@ -40,4 +50,4 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
 
     # if the `q` key was pressed, break from the loop
     if key == ord("q"):
-        break
+    	break
