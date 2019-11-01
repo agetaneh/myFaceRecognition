@@ -46,7 +46,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     # clear the stream in preparation for the next frame
     rawCapture.truncate(0)
     if key == ord("t"):
-        camera.capture('/home/pi/Desktop/image%s.jpg' % number)
+        camera.capture('/home/pi/myFaceRecognition/Data/Train/17/image%s.jpg' % number)
         number += 1
 
     # if the `q` key was pressed, break from the loop
