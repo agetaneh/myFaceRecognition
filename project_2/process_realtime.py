@@ -19,35 +19,36 @@ import cv2
 # initialize the camera and grab a reference to the raw camera capture
 camera = PiCamera()
 camera.resolution = (640, 480)
+camera.color_effects = (128,128)
 camera.framerate = 32
 rawCapture = PiRGBArray(camera, size=(640, 480))
 
 # allow the camera to warmup
 time.sleep(0.1)
-
+number = 0
 # capture frames from the camera
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
     # grab the raw NumPy array representing the image, then initialize the timestamp
     # and occupied/unoccupied text
     image = frame.array
 
-    # scale the image 
-    w = int(image.shape[1] * 50 /100)
-    h = int(image.shape[0] * 50 /100)
-
     # Resize the image
-    image = cv2.resize(image, (w,h), interpolation=cv2.INTER_AREA)
+    image = cv2.resize(image, (160,120), interpolation=cv2.INTER_AREA)
 
     # Drawing rectangle on image
-    image = cv2.rectangle(image, (50,16), (150, 116), (255,255,255), 4)
+    image = cv2.rectangle(image, (30,10), (130, 110), (255,255,255), 4)
 
     # show the frame
     cv2.imshow("Frame", image)
     key = cv2.waitKey(1) & 0xFF
 
+
     # clear the stream in preparation for the next frame
     rawCapture.truncate(0)
+    if key == ord("t"):
+        camera.capture('/home/pi/Desktop/image%s.jpg' % number)
+        number += 1
 
     # if the `q` key was pressed, break from the loop
     if key == ord("q"):
-    	break
+        break
