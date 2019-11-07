@@ -25,7 +25,7 @@ def detectAndDisplay(frame):
         frame = cv2.rectangle(frame,(x, y+h), ( x+w, y),(255,255,255), 0)
          
         faceROI = frame[y:y+h,x:x+w]
-        cv2.imwrite('/home/pi/myFaceRecognition/Data/Validation/18/{0:03d}.jpg'.format(imNum),faceROI)
+        cv2.imwrite('/home/pi/myFaceRecognition/images/17/{0:03d}.jpg'.format(imNum),faceROI)
         imNum += 1
     cv2.imshow('Capture - Face detection', frame)
  
@@ -52,7 +52,7 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     image = frame.array
 
     # Resize the image
-    image = cv2.resize(image, (160,120), interpolation=cv2.INTER_AREA)
+    #image = cv2.resize(image, (160,120), interpolation=cv2.INTER_AREA)
 
     # Drawing rectangle on image
     #image = cv2.rectangle(image, (30,10), (130, 110), (255,255,255), 4)
