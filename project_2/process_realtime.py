@@ -17,20 +17,17 @@ import time
 import cv2
 import argparse
 
-
+imNum = 0
 def detectAndDisplay(frame):
+    global imNum
     faces = face_cascade.detectMultiScale(frame)
     for (x,y,w,h) in faces:
-        center = (x + w//2, y + h//2)
-        frame = cv.ellipse(frame, center, (w//2, h//2), 0, 0, 360, (255, 0, 255), 4)
-        faceROI = frame_gray[y:y+h,x:x+w]
-        #-- In each face, detect eyes
-        eyes = eyes_cascade.detectMultiScale(faceROI)
-        for (x2,y2,w2,h2) in eyes:
-            eye_center = (x + x2 + w2//2, y + y2 + h2//2)
-            radius = int(round((w2 + h2)*0.25))
-            frame = cv.circle(frame, eye_center, radius, (255, 0, 0 ), 4)
-    cv.imshow('Capture - Face detection', frame)
+        frame = cv2.rectangle(frame,(x, y+h), ( x+w, y),(255,255,255), 0)
+         
+        faceROI = frame[y:y+h,x:x+w]
+        cv2.imwrite('/home/pi/myFaceRecognition/Data/Validation/18/{0:03d}.jpg'.format(imNum),faceROI)
+        imNum += 1
+    cv2.imshow('Capture - Face detection', frame)
  
 # initialize the camera and grab a reference to the raw camera capture
 camera = PiCamera()
@@ -44,16 +41,7 @@ time.sleep(0.1)
 number = 0
 
 # Face detection
-'''parser = argparse.ArgumentParser(description='Face Detection')
-parser.add_argument('--face_cascade', help='Path to face cascade.', default='data/haarcascades/haarcascade_frontalface_alt.xml')
-parser.add_argument('--eyes_cascade', help='Path to eyes cascade.', default='data/haarcascades/haarcascade_eye_tree_eyeglasses.xml')
-args = parser.parse_args()
-
-face_cascade_name = args.face_cascade
-eyes_cascade_name = args.eyes_cascade
-'''
-face_cascade = cv2.CascadeClassifier()
-eyes_cascade = cv2.CascadeClassifier()
+face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades+'haarcascade_frontalface_default.xml')
 
 #Load the cascades
   
@@ -67,11 +55,11 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     image = cv2.resize(image, (160,120), interpolation=cv2.INTER_AREA)
 
     # Drawing rectangle on image
-    image = cv2.rectangle(image, (30,10), (130, 110), (255,255,255), 4)
+    #image = cv2.rectangle(image, (30,10), (130, 110), (255,255,255), 4)
     
-    detectAndDisplay(frame)
+    detectAndDisplay(image)
     # show the frame
-    cv2.imshow("Frame", image)
+    #cv2.imshow("Frame", image)
     key = cv2.waitKey(1) & 0xFF
 
 
